@@ -1,19 +1,30 @@
 <?php
-session_start();
-echo "session avant if:";
-var_dump($_SESSION);
-echo "<br> post:";
-var_dump($_POST);
+include_once('./partial/skeleton/header.php');
+// echo "session avant if:";
+// var_dump($_SESSION);
+// echo "<br> post:";
+// var_dump($_POST);
 
 if(isset($_POST['pseudo'])){
-    $_SESSION['pseudo'] = $_POST['pseudo'];
+    include('./partial/requests/dbConnexion.php');
+    $users = $db->prepare("  SELECT * FROM users 
+                            WHERE LOWER(pseudo) = :pseudo");
+    $users->execute([ 'pseudo' => strtolower($_POST['pseudo']) ]);
+    foreach($users as $user){
+    // var_dump($user);  
+    $_SESSION['pseudo'] = $user['pseudo'];
+    $_SESSION['id'] = $user['id'];
+    }
 }
 
-echo "<br> session après if:";
-var_dump($_SESSION);
+// echo "<br> session après if:";
+// var_dump($_SESSION);
+$id = $_SESSION['id'];
+// echo "<br>";
+
+
 ?>
 
-<?php include_once('./partial/skeleton/header.php'); ?>
 
 
 
@@ -28,8 +39,8 @@ var_dump($_SESSION);
         </section>
 
         <section id="writingBox">
-            <form action="handler.php?task=write" method="post">
-                <input type="text" name="userId" id="userId" placeholder="nickname">
+            <form action="./handler.php?task=write" method="post">
+                <input type="hidden" name="userId" id="userId" value="<?= $id ?>">
                 <input type="text" id="message" name="message" placeholder="saisir texte">
                 <button type="submit">📭 Envoyer</button>
             </form>
@@ -43,7 +54,7 @@ var_dump($_SESSION);
             <a href="./util/userInscription.php">S'inscrire</a>
         </section>
         <section id="usersCont">
-            try
+            future section des users enregistrés
         </section>
     </section>
 
@@ -52,5 +63,5 @@ var_dump($_SESSION);
 
 
     
-<?php include_once('./partial/skeleton/indexFooter.php') ;?>
+<?php include_once('./partial/skeleton/footer.php') ;?>
 

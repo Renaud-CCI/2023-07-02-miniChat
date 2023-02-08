@@ -7,6 +7,8 @@ include_once('../partial/skeleton/header.php');
     <input type="text"name="pseudo">
     <input type="submit" value="Se connecter">
 </form>
+<hr>
+<a href="../index.php">Retour à l'accueil</a>
 
 <?php
 include_once('../partial/skeleton/otherFooter.php');

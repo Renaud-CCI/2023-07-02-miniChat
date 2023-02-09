@@ -25,10 +25,11 @@ async function getMessages(){
       `
     }).join('');
     const messages = document.querySelector('.messages');
+    const messagesBox = document.querySelector('#messagesBox');
 
     messages.innerHTML = html;
-    messages.scrollTop = messages.scrollHeight;
-
+    messagesBox.scrollTop = messagesBox.scrollHeight;
+    console.log("boucle ok")
   }
  
 
@@ -77,4 +78,28 @@ document.querySelector('form').addEventListener('submit', postMessage);
 //    */
 // let interval = window.setInterval(getMessages, 10000);
 
+
+//AFFICHE LES UTILISATEURS CONNECTES--------
+async function getUsers(){
+  let response = await fetch('../util/getUsers.php');
+  let result = await response.json();
+  // 1. Elle doit créer une requête AJAX pour se connecter au serveur, et notamment au fichier handler.php
+
+  // 2. Quand elle reçoit les données, il faut qu'elle les traite (en exploitant le JSON) et il faut qu'elle affiche ces données au format HTML
+  let html = result.reverse().map(function(message){
+    return `
+          <p>${message.pseudo}</p>
+    `
+  }).join('');
+  const messages = document.querySelector('#usersDiv');
+
+  messages.innerHTML = html;
+
+}
+
+
+// let interval = window.setInterval(getMessages, 3000);
+// let interval2 = window.setInterval(getUsers, 3000);
+
 getMessages();
+getUsers();

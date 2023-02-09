@@ -21,7 +21,7 @@ function getMessages(){
     $results = $db->query(" SELECT *, DATE_FORMAT(dateAndTime,'%d/%m/%y %Hh%i') AS niceDate FROM messages 
                             INNER JOIN users ON users.id = messages.userId
                             ORDER BY niceDate DESC   
-                            LIMIT 10");
+                            LIMIT 20");
     $messages = $results->fetchAll();
     echo json_encode($messages);
 }
@@ -48,3 +48,4 @@ function postMessage(){
     ]);
     echo json_encode(["status" => "success"]);
 }
+

@@ -1,0 +1,95 @@
+:root {
+    --main-bg-color: #ADF;
+    --main-font-color: #F5F;
+  }
+
+@font-face {
+    font-family: graph;
+    src: url(assets/Malice_2012_02_25.otf);
+}
+@font-face {
+    font-family: graph2;
+    src: url(assets/LT_Funk.otf);
+}
+
+body{
+    background-image : url('images/blob-scatter-haikei.svg');
+    background-size:100vh;
+}
+
+h1{
+    font-family: graph;
+    font-size: 8vw;
+}
+
+#messagesBox{
+    background: none;
+    overflow:auto;
+    height:68vh;
+    border : 2px solid var(--main-font-color);
+    border-radius : 10px;
+}
+
+#messagesBoxNone{
+    color:red;
+    font-size: 7vw;
+    background: none;
+    overflow:auto;
+    height:68vh;
+    border : 2px solid var(--main-font-color);
+    border-radius : 10px;
+}
+
+
+
+#writingBox{
+    background: none;
+    height : 7vh;
+    border : 2px solid var(--main-font-color);
+    border-radius : 10px;
+}
+
+section #connectionCont{
+    height:12vh;
+    background-color: var(--main-bg-color);
+    border : 2px solid var(--main-font-color);
+    border-radius : 10px;
+
+}
+#connectionCont button{
+    background-color: var(--main-font-color);
+    color: var(--main-bg-color);
+    font-style: none;
+    height: 5vw;
+}
+#deconnectionCont{
+    height:12vw;
+}
+
+
+#deconnectionCont p{
+    font-family: graph2;
+    font-size: 5vw;
+}
+#deconnectionCont a{
+    font-family: graph2;
+    font-size: 2vw;
+}
+
+#usersCont{
+    background-color: var(--main-bg-color);
+    border : 2px solid var(--main-font-color);
+    border-radius : 10px;
+    max-height: 50.6vh;
+    overflow: auto;
+}
+
+#usersCont h2{
+    font-family: graph;
+    font-size: 2vw;
+}
+
+#usersDiv p{
+    font-family: graph2;
+    font-size: 2vw;
+}

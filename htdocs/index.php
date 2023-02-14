@@ -1,72 +1,66 @@
 <?php
-    session_start();
-    include_once('PHP/header.php');
-?>
+include_once('./partial/skeleton/header.php');
+// echo "session avant if:";
+// var_dump($_SESSION);
+// echo "<br> post:";
+// var_dump($_POST);
 
-<?php
-// essai avant commit
-    if(!isset($_SESSION['pseudo'])) {
-        isset($_GET['login'])? $placeholder="Pseudo existant" : $placeholder="Nom";
-        echo "
-        <div class='container text-center my-5 pe-5'>
-        <h1 style='color:white'>Bienvenue à notre coding <span>
-            <img src='IMAGES/Quiz.png' alt='logo'>
-        </span>  ...</h1>
-     </div>
-    
-    <div class='container text-center my-5 d-flex justify-content-center'>
-        <h2 style='color:white'>
-            Veuillez entrer votre pseudo :
-        </h2>
-        <form action='traitements/login.php' method='get'>
-            <input type='text' name='pseudo' placeholder='{$placeholder}'>
-            <button class='btn btn-primary' type='submit'>Soumettre</button>
-        </form>
-    </div>
-        ";
-    } else {
-        echo '
-        <div class="container text-center my-5 d-flex justify-content-center">
-            <h3 style="color:white" class="my-3">Choissisez votre thème en dessous</h3>
-        </div>
-        
-        <section id="questions" class="container text-center my-5 d-flex "> ';
-                if (!isset($_GET['theme'])){
-                    include_once ('./traitements/choicesEcho.php'); 
-                } else {
-                    $_SESSION['theme'] = $_GET['theme'];
-                    $_SESSION['count'] = 0;
-                    $_SESSION['questions'] = [];
-                    $_SESSION['score'] = 0;
-                    echo "
-                    <div class='container text-center my-5'>
-                        <h4 style='color:white'>
-                            Vous avez choisi le Quiz {$_SESSION['theme']}
-                        </h4>
-                        <div class='container text-center d-flex justify-content-center my-5'>
-                        <div class='row'>
-                        <div class='col'>
-                            <form action='../quizpage.php'>
-                            <button class='btn btn-primary' type='submit' value='Confirmer'>Confirmer</button>
-                            </form>
-                        </div>
-                        <div class='col'>
-                            <form action='../traitements/choicesEcho.php' method='get'>
-                            <input type='hidden' name='theme' value='destroy'>
-                            <button class='btn btn-danger' type='submit' value='Annuler'>Annuler</button>
-                            </form>
-                        </div>
-                        </div>
-                        </div>
-                    </div>
-                        ";}
-    
-       echo' </section>
-            ';
+if(isset($_POST['pseudo'])){
+    include('./partial/requests/dbConnexion.php');
+    $users = $db->prepare("  SELECT * FROM users 
+                            WHERE LOWER(pseudo) = :pseudo");
+    $users->execute([ 'pseudo' => strtolower($_POST['pseudo']) ]);
+    foreach($users as $user){
+    // var_dump($user);  
+    $_SESSION['pseudo'] = $user['pseudo'];
+    $_SESSION['id'] = $user['id'];
     }
+}
+
+// echo "<br> session après if:";
+// var_dump($_SESSION);
+$id = $_SESSION['id'];
+// echo "<br>";
+
+
 ?>
 
 
-<?php
-    include_once('PHP/script.php');
-?>
+
+
+
+<section class="container d-flex" >
+
+    <section id="messagesCollumn" class="col-8 m-1">
+
+        <section id="messagesBox" class="bg-danger">
+            <div class="messages">
+            </div>
+        </section>
+
+        <section id="writingBox">
+            <form action="./handler.php?task=write" method="post">
+                <input type="hidden" name="userId" id="userId" value="<?= $id ?>">
+                <input type="text" id="message" name="message" placeholder="saisir texte">
+                <button type="submit">📭 Envoyer</button>
+            </form>
+
+        </section>
+    </section>
+
+    <section id="userCollumn" class="col-4 m-1">
+        <section id="connectionCont">
+            <a href="./util/userConnexion.php">Se connecter</a>
+            <a href="./util/userInscription.php">S'inscrire</a>
+        </section>
+        <section id="usersCont">
+            future section des users enregistrés
+        </section>
+    </section>
+
+</section>
+
+
+
+    
+<?php include_once('./partial/skeleton/footer.php') ;?>
